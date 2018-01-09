@@ -1,0 +1,1 @@
+FROM anapsix/alpine-java:8u144b01_jdk

@@ -1,0 +1,8 @@
+FROM {{.DEFAULT_PULL_REGISTRY}}/mammal:{{.MAMMAL_VERSION}}
+
+# example envs
+ENV WILDFLY_VERSION 8.2.0.Final
+ENV JBOSS_HOME /opt/jboss-as
+
+# some example operations
+RUN mkdir -p /logs/jboss-as
