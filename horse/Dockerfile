@@ -1,0 +1,1 @@
+FROM nexus.srinternal.net:9084/mammal:3.1.0

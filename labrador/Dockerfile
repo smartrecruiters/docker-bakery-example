@@ -1,0 +1,1 @@
+FROM nexus.srinternal.net:9084/dog:3.2.0
