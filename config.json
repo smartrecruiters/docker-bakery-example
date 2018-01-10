@@ -9,6 +9,5 @@
 	"commands": {
 		"defaultBuildCommand": "docker build --tag {{.IMAGE_NAME}}:{{.IMAGE_VERSION}} --tag {{.DEFAULT_PUSH_REGISTRY}}/{{.IMAGE_NAME}}:{{.IMAGE_VERSION}} --tag {{.DEFAULT_PULL_REGISTRY}}/{{.IMAGE_NAME}}:{{.IMAGE_VERSION}} {{.DOCKERFILE_DIR}}",
 		"defaultPushCommand": "docker push {{.DEFAULT_PUSH_REGISTRY}}/{{.IMAGE_NAME}}:{{.IMAGE_VERSION}}"
-	},
-	"rootDir": "/Users/jb/Sources/smart/docker-bakery-example/"
+	}
 }
