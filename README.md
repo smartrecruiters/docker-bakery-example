@@ -75,7 +75,27 @@ Commands defined here as templates will be filled with available defined propert
 Presence of the `Dockerfile.template` file qualifies the image for the place in hierarchy and therefore allows for triggering builds that depend from this image. It also ensures that image build will be triggered when its parent changes. 
 
 # Usage
-In this project `Makefiles` have been defined to simplify `build` and `push` process for the images. Lets consider several scenarios.
+In this project `Makefiles` have been defined to simplify `build` and `push` process for the images.
+
+## Makefiles commands 
+Following commands are supported in makefile
+```
+/docker-bakery-example/dog$ make
+Use one of following commands:
+        make build-patch - build next patch version of the image without triggering of dependant build
+        make build-minor - build next minor version of the image without triggering of dependant build
+        make build-major - build next major version of the image without triggering of dependant build
+        make build-patch-all - build next patch version of the image and trigger dependant builds
+        make build-minor-all - build next minor version of the image and trigger dependant builds
+        make build-major-all - build next major version of the image and trigger dependant builds
+        make push-patch - push next patch version of the image without triggering push of dependants
+        make push-minor - push next patch version of the image without triggering push of dependants
+        make push-major - push next patch version of the image without triggering push of dependants
+        make push-patch-all - push next patch version of the image and trigger push of dependants
+        make push-minor-all - push next patch version of the image and trigger push of dependants
+        make push-major-all - push next patch version of the image and trigger push of dependants
+```
+ Lets consider several scenarios.
 
 ## Scenario 1 - Building and pushing of the parent image along with all its dependants
 Lets say we want to release new version of the `dog` image and the change we are going to introduce is a major one (we are bumping the OS version to the next one) 
