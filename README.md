@@ -4,8 +4,10 @@
 - [Purpose](#purpose)
 - [Features](#features)
 - [Structure of the project](#structure-of-the-project)
-    - [Commands config section](#commands-config-section)
-- [Dockerfile.template](#dockerfiletemplate)
+    - [Config](#config)
+        - [Properties config section](#properties-config-section)
+        - [Commands config section](#commands-config-section)
+    - [Dockerfile.template](#dockerfiletemplate)
 - [Usage](#usage)
     - [Makefiles commands](#makefiles-commands)
     - [Scenario 1 - Building and pushing of the parent image along with all its dependants](#scenario-1---building-and-pushing-of-the-parent-image-along-with-all-its-dependants)
@@ -49,6 +51,7 @@ Hierarchy of docker files is as follows:
 └── scratch
     └── fish
 ```
+
 meaning that:
  - we have 10 images in total in this repository 
  - 9 images are created directly or indirectly from the `alpine-java` image
@@ -56,10 +59,11 @@ meaning that:
  - there are 2 top level images (`scratch` and `alpine-java`)
  - `mammal` image has 7 dependants (direct + indirect)
  
- # Config
- 
- Configuration of the project is placed in `config.json` file and its contents are as follows:
- ```
+<a name="config"></a>
+## Config
+Configuration of the project is placed in `config.json` file and its contents are as follows:
+
+```
  {
  	"properties": {
 		"DEFAULT_PULL_REGISTRY": "some-private-registry.com:9084",
@@ -73,9 +77,10 @@ meaning that:
  		"defaultPushCommand": "docker push {{.DEFAULT_PUSH_REGISTRY}}/{{.IMAGE_NAME}}:{{.IMAGE_VERSION}}"
  	}
  }
- ```
+```
  
- ## Properties config section
+<a name="properties-config-section"></a>
+### Properties config section
  This section is dedicated for storing any custom properties that may be available for usage in `Dockerfile.template` files. 
  Feel free to modify this section and provide properties according to your needs. Flat structure should be preserved.
  
@@ -88,12 +93,12 @@ meaning that:
  - `*_VERSION` - where `*` is the image name. There will be that many properties of this kind as many images are in hierarchy. Initially those properties will be filled with latest versions of pushed images.  
 
 <a name="commands-config-section"></a>
-## Commands config section
+### Commands config section
 This section contains two templates used for building and pushing docker images. It allows for specifying custom parameters. 
 Commands defined here as templates will be filled with available defined properties from the config section + the dynamic properties set during runtime.  
 
 <a name="dockerfiletemplate"></a>
-# Dockerfile.template
+## Dockerfile.template
 Presence of the `Dockerfile.template` file qualifies the image for the place in hierarchy and therefore allows for triggering builds that depend from this image. It also ensures that image build will be triggered when its parent changes. 
 
 <a name="usage"></a>
