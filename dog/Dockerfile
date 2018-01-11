@@ -1,4 +1,4 @@
-FROM nexus.srinternal.net:9084/mammal:3.2.0
+FROM nexus.srinternal.net:9084/mammal:3.1.0
 
 # example envs
 ENV WILDFLY_VERSION 8.2.0.Final
