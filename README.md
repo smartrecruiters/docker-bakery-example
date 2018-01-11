@@ -68,9 +68,9 @@ Configuration of the project is placed in `config.json` file and its contents ar
  	"properties": {
 		"DEFAULT_PULL_REGISTRY": "some-private-registry.com:9084",
 		"DEFAULT_PUSH_REGISTRY": "some-private-registry.com:9082",
- 		"DOCKERFILE_DIR": "Reserved dynamic property, contain path to currently build image. Can be used in temple.",
- 		"IMAGE_NAME": "Reserved dynamic property, represents image name. Can be used in temple.",
- 		"IMAGE_VERSION": "Reserved dynamic property, represents new version of the image. Can be used in temple."
+ 		"DOCKERFILE_DIR": "Reserved dynamic property, contain path to currently build image. Can be used in template.",
+ 		"IMAGE_NAME": "Reserved dynamic property, represents image name. Can be used in template.",
+ 		"IMAGE_VERSION": "Reserved dynamic property, represents new version of the image. Can be used in template."
  	},
  	"commands": {
  		"defaultBuildCommand": "docker build --tag {{.IMAGE_NAME}}:{{.IMAGE_VERSION}} --tag {{.DEFAULT_PUSH_REGISTRY}}/{{.IMAGE_NAME}}:{{.IMAGE_VERSION}} --tag {{.DEFAULT_PULL_REGISTRY}}/{{.IMAGE_NAME}}:{{.IMAGE_VERSION}} {{.DOCKERFILE_DIR}}",

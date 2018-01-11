@@ -1,1 +1,1 @@
-FROM nexus.srinternal.net:9084/dobermann:3.2.0
+FROM nexus.srinternal.net:9084/dobermann:3.2.1
