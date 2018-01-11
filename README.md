@@ -1,8 +1,27 @@
+# docker-bakery-example
+<!-- MarkdownTOC  depth="4" autolink="true" bracket="round" autoanchor="true" -->
+
+- [Purpose](#purpose)
+- [Features](#features)
+- [Structure of the project](#structure-of-the-project)
+    - [Commands config section](#commands-config-section)
+- [Dockerfile.template](#dockerfiletemplate)
+- [Usage](#usage)
+    - [Makefiles commands](#makefiles-commands)
+    - [Scenario 1 - Building and pushing of the parent image along with all its dependants](#scenario-1---building-and-pushing-of-the-parent-image-along-with-all-its-dependants)
+    - [Scenario 2 - Building and pushing of the parent image without triggering build of dependants](#scenario-2---building-and-pushing-of-the-parent-image-without-triggering-build-of-dependants)
+    - [Scenario 3 - Add new image to the hierarchy](#scenario-3---add-new-image-to-the-hierarchy)
+- [How to apply it to your project](#how-to-apply-it-to-your-project)
+
+<!-- /MarkdownTOC -->
+
+<a name="purpose"></a>
 # Purpose
 
 This is an example project with docker files that are managed by a `docker-bakery`.
 It illustrates a simple solution for automatic rebuilding of dependent images when parent image changes. 
 
+<a name="features"></a>
 # Features
 - Automatic triggering of dependant images builds when parent changes
 - Support for Dockerfile templating with usage of [golang template engine](https://golang.org/pkg/text/template/)
@@ -12,6 +31,7 @@ It illustrates a simple solution for automatic rebuilding of dependent images wh
 - Versioning with `git` tags  
 - Makefiles added for a convenient usage
 
+<a name="structure-of-the-project"></a>
 # Structure of the project
 
 Hierarchy of docker files is as follows:
@@ -67,16 +87,20 @@ meaning that:
  - `IMAGE_VERSION` - will be replaced with currently processed image version
  - `*_VERSION` - where `*` is the image name. There will be that many properties of this kind as many images are in hierarchy. Initially those properties will be filled with latest versions of pushed images.  
 
+<a name="commands-config-section"></a>
 ## Commands config section
 This section contains two templates used for building and pushing docker images. It allows for specifying custom parameters. 
 Commands defined here as templates will be filled with available defined properties from the config section + the dynamic properties set during runtime.  
 
+<a name="dockerfiletemplate"></a>
 # Dockerfile.template
 Presence of the `Dockerfile.template` file qualifies the image for the place in hierarchy and therefore allows for triggering builds that depend from this image. It also ensures that image build will be triggered when its parent changes. 
 
+<a name="usage"></a>
 # Usage
 In this project `Makefiles` have been defined to simplify `build` and `push` process for the images.
 
+<a name="makefiles-commands"></a>
 ## Makefiles commands 
 Following commands are supported in makefile
 ```
@@ -97,6 +121,7 @@ Use one of following commands:
 ```
  Lets consider several scenarios.
 
+<a name="scenario-1---building-and-pushing-of-the-parent-image-along-with-all-its-dependants"></a>
 ## Scenario 1 - Building and pushing of the parent image along with all its dependants
 Lets say we want to release new version of the `dog` image and the change we are going to introduce is a major one (we are bumping the OS version to the next one) 
 - as a first `Dockerfile.template` needs to be updated to include all our desired changes
@@ -105,6 +130,7 @@ Lets say we want to release new version of the `dog` image and the change we are
 - invoke `make push-major-all` - which will push all previously build images
 - commit and push changes made to your template files       
 
+<a name="scenario-2---building-and-pushing-of-the-parent-image-without-triggering-build-of-dependants"></a>
 ## Scenario 2 - Building and pushing of the parent image without triggering build of dependants
 Lets say we want to release new version of the `dog` image and the change we are going to introduce is a simple tweak (patch version). We do not want to trigger dependant builds yet as our change is not yet finished. 
 - as a first `Dockerfile.template` needs to be updated to include all our desired changes
@@ -113,6 +139,7 @@ Lets say we want to release new version of the `dog` image and the change we are
 - invoke `make push-patch` - which will push `dog` image to the repository     
 - commit and push changes made to your template files       
 
+<a name="scenario-3---add-new-image-to-the-hierarchy"></a>
 ## Scenario 3 - Add new image to the hierarchy
 Lets say we want to introduce new image to the hierarchy called `even-smaller-dobermann`. 
 - create directory called `even-smaller-dobermann` 
@@ -122,6 +149,7 @@ Lets say we want to introduce new image to the hierarchy called `even-smaller-do
 - invoke `make push-major` from the `even-smaller-dobermann` directory
 - commit and push newly created files
 
+<a name="how-to-apply-it-to-your-project"></a>
 # How to apply it to your project
 Applying `docker-bakery` is quite simple. Here are the steps:
 - download the `docker-bakery` binaries
