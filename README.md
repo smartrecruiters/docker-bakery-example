@@ -107,4 +107,6 @@ Applying `docker-bakery` is quite simple. Here are the steps:
 - download the `docker-bakery` binaries
 - prepare a `config.json` file (mainly focus on the build and push commands + properties used in templates)
 - prepare `Dockerfile.template` files for the images that need to be manages by a `docker-bakery`
-- prepare `Makefiles` if you are aiming for convenient usage. This step is optional but if will greatly simplify usage as it will take care of passing paths to config and dockerfiles for you. 
+- prepare `Makefiles` if you are aiming for convenient usage. This step is optional but if will greatly simplify usage as it will take care of passing paths to config and dockerfiles for you.
+- invoke `make build-major-all` starting with the base image in the hierarchy  
+- invoke `make push-major-all` starting with the base image in the hierarchy  
