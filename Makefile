@@ -7,10 +7,11 @@ DOCKER_BAKERY_PATH := ${ROOT_DIR_PATH}docker-bakery-binaries/darwin_amd64/docker
 .DEFAULT_GOAL: usage
 
 # tell Makefile not to search files with such names and run tasks unconditionally 
-.PHONY: usage debug build-patch build-patch-all build-minor build-minor-all build-major build-major-all push-patch push-patch-all push-minor push-minor-all push-major push-major-all
+.PHONY: usage debug show-structure build-patch build-patch-all build-minor build-minor-all build-major build-major-all push-patch push-patch-all push-minor push-minor-all push-major push-major-all
 
 usage:
 	@echo "Use one of following commands:"
+	@echo "\tmake show-structure - shows structure of the images"
 	@echo "\tmake build-patch - build next patch version of the image without triggering of dependant build"
 	@echo "\tmake build-minor - build next minor version of the image without triggering of dependant build"
 	@echo "\tmake build-major - build next major version of the image without triggering of dependant build"
@@ -31,6 +32,9 @@ debug:
 	@echo "\tCONFIG_PATH: ${CONFIG_PATH}"
 	@echo "\tDOCKER_BAKERY_PATH: ${DOCKER_BAKERY_PATH}"
 
+show-structure:
+	${DOCKER_BAKERY_PATH} show-structure -c ${CONFIG_PATH}
+	
 build-patch:
 	${DOCKER_BAKERY_PATH} build -s patch -c ${CONFIG_PATH} -d ${DOCKERFILE} --skip-dependants
 
