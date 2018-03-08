@@ -123,6 +123,7 @@ Following commands are supported in makefile
 ```
 /docker-bakery-example/dog$ make
 Use one of following commands:
+        make show-structure - shows structure of the images
         make build-patch - build next patch version of the image without triggering of dependant build
         make build-minor - build next minor version of the image without triggering of dependant build
         make build-major - build next major version of the image without triggering of dependant build
