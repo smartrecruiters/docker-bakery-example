@@ -20,7 +20,7 @@
 <a name="purpose"></a>
 # Purpose
 
-This is an example project with docker files that are managed by a `docker-bakery`.
+This is an example project with docker files that are managed by a **[docker-bakery](https://github.com/smartrecruiters/docker-bakery)**.
 It illustrates a simple solution for automatic rebuilding of dependent images when parent image changes. 
 
 <a name="features"></a>
