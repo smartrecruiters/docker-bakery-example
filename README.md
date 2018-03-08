@@ -7,6 +7,7 @@
     - [Config](#config)
         - [Properties config section](#properties-config-section)
         - [Commands config section](#commands-config-section)
+        - [Others config section](#others-config-section)
     - [Dockerfile.template](#dockerfiletemplate)
 - [Usage](#usage)
     - [Makefiles commands](#makefiles-commands)
@@ -17,13 +18,13 @@
 
 <!-- /MarkdownTOC -->
 
-<a name="purpose"></a>
+<a id="purpose"></a>
 # Purpose
 
 This is an example project with docker files that are managed by a **[docker-bakery](https://github.com/smartrecruiters/docker-bakery)**.
 It illustrates a simple solution for automatic rebuilding of dependent images when parent image changes. 
 
-<a name="features"></a>
+<a id="features"></a>
 # Features
 - Automatic triggering of dependant images builds when parent changes
 - Support for Dockerfile templating with usage of [golang template engine](https://golang.org/pkg/text/template/)
@@ -34,7 +35,7 @@ It illustrates a simple solution for automatic rebuilding of dependent images wh
 - Makefiles added for a convenient usage
 - Ability to exclude images from the build triggering still keeping them in the hierarchy
 
-<a name="structure-of-the-project"></a>
+<a id="structure-of-the-project"></a>
 # Structure of the project
 
 Hierarchy of docker files is as follows:
@@ -60,7 +61,7 @@ meaning that:
  - there are 2 top level images (`scratch` and `alpine-java`)
  - `mammal` image has 7 dependants (direct + indirect)
  
-<a name="config"></a>
+<a id="config"></a>
 ## Config
 Configuration of the project is placed in `config.json` file and its contents are as follows:
 
@@ -85,7 +86,7 @@ Configuration of the project is placed in `config.json` file and its contents ar
  }
 ```
  
-<a name="properties-config-section"></a>
+<a id="properties-config-section"></a>
 ### Properties config section
  This section is dedicated for storing any custom properties that may be available for usage in `Dockerfile.template` files. 
  Feel free to modify this section and provide properties according to your needs. Flat structure should be preserved.
@@ -98,24 +99,25 @@ Configuration of the project is placed in `config.json` file and its contents ar
  - `IMAGE_VERSION` - will be replaced with currently processed image version
  - `*_VERSION` - where `*` is the image name. There will be that many properties of this kind as many images are in hierarchy. Initially those properties will be filled with latest versions of pushed images.  
 
-<a name="commands-config-section"></a>
+<a id="commands-config-section"></a>
 ### Commands config section
 This section contains two templates used for building and pushing docker images. It allows for specifying custom parameters. 
 Commands defined here as templates will be filled with available defined properties from the config section + the dynamic properties set during runtime.  
 
+<a id="others-config-section"></a>
 ### Others config section
 - `verbose` config flag is useful when debugging, it simply shows more info between triggered build
 - `autoBuildExcludes` allows to define array of image names that are defined in the entire hierarchy but will be excluded from builds when parent image changes. One can still build them and take advantages of having templates and inheritance, but at the same time allows for someone is not required to build them with entire images tree.
 
-<a name="dockerfiletemplate"></a>
+<a id="dockerfiletemplate"></a>
 ## Dockerfile.template
 Presence of the `Dockerfile.template` file qualifies the image for the place in hierarchy and therefore allows for triggering builds that depend from this image. It also ensures that image build will be triggered when its parent changes. 
 
-<a name="usage"></a>
+<a id="usage"></a>
 # Usage
 In this project `Makefiles` have been defined to simplify `build` and `push` process for the images.
 
-<a name="makefiles-commands"></a>
+<a id="makefiles-commands"></a>
 ## Makefiles commands 
 Following commands are supported in makefile
 ```
@@ -136,7 +138,7 @@ Use one of following commands:
 ```
  Lets consider several scenarios.
 
-<a name="scenario-1---building-and-pushing-of-the-parent-image-along-with-all-its-dependants"></a>
+<a id="scenario-1---building-and-pushing-of-the-parent-image-along-with-all-its-dependants"></a>
 ## Scenario 1 - Building and pushing of the parent image along with all its dependants
 Lets say we want to release new version of the `dog` image and the change we are going to introduce is a major one (we are bumping the OS version to the next one) 
 - as a first `Dockerfile.template` needs to be updated to include all our desired changes
@@ -145,7 +147,7 @@ Lets say we want to release new version of the `dog` image and the change we are
 - invoke `make push-major-all` - which will push all previously build images
 - commit and push changes made to your template files       
 
-<a name="scenario-2---building-and-pushing-of-the-parent-image-without-triggering-build-of-dependants"></a>
+<a id="scenario-2---building-and-pushing-of-the-parent-image-without-triggering-build-of-dependants"></a>
 ## Scenario 2 - Building and pushing of the parent image without triggering build of dependants
 Lets say we want to release new version of the `dog` image and the change we are going to introduce is a simple tweak (patch version). We do not want to trigger dependant builds yet as our change is not yet finished. 
 - as a first `Dockerfile.template` needs to be updated to include all our desired changes
@@ -154,7 +156,7 @@ Lets say we want to release new version of the `dog` image and the change we are
 - invoke `make push-patch` - which will push `dog` image to the repository     
 - commit and push changes made to your template files       
 
-<a name="scenario-3---add-new-image-to-the-hierarchy"></a>
+<a id="scenario-3---add-new-image-to-the-hierarchy"></a>
 ## Scenario 3 - Add new image to the hierarchy
 Lets say we want to introduce new image to the hierarchy called `even-smaller-dobermann`. 
 - create directory called `even-smaller-dobermann` 
@@ -164,7 +166,7 @@ Lets say we want to introduce new image to the hierarchy called `even-smaller-do
 - invoke `make push-major` from the `even-smaller-dobermann` directory
 - commit and push newly created files
 
-<a name="how-to-apply-it-to-your-project"></a>
+<a id="how-to-apply-it-to-your-project"></a>
 # How to apply it to your project
 Applying `docker-bakery` is quite simple. Here are the steps:
 - download the [docker-bakery](https://github.com/smartrecruiters/docker-bakery/releases) binaries
