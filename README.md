@@ -32,6 +32,7 @@ It illustrates a simple solution for automatic rebuilding of dependent images wh
 - Possibility of providing custom `build` and `push` commands
 - Versioning with `git` tags  
 - Makefiles added for a convenient usage
+- Ability to exclude images from the build triggering still keeping them in the hierarchy
 
 <a name="structure-of-the-project"></a>
 # Structure of the project
@@ -75,7 +76,12 @@ Configuration of the project is placed in `config.json` file and its contents ar
  	"commands": {
  		"defaultBuildCommand": "docker build --tag {{.IMAGE_NAME}}:{{.IMAGE_VERSION}} --tag {{.DEFAULT_PUSH_REGISTRY}}/{{.IMAGE_NAME}}:{{.IMAGE_VERSION}} --tag {{.DEFAULT_PULL_REGISTRY}}/{{.IMAGE_NAME}}:{{.IMAGE_VERSION}} {{.DOCKERFILE_DIR}}",
  		"defaultPushCommand": "docker push {{.DEFAULT_PUSH_REGISTRY}}/{{.IMAGE_NAME}}:{{.IMAGE_VERSION}}"
- 	}
+ 	},
+	"verbose": false,
+	"autoBuildExcludes": [
+		"some-image-name-that-will-be-excluded-from-build-when-parent-changes"
+	]
+
  }
 ```
  
@@ -96,6 +102,10 @@ Configuration of the project is placed in `config.json` file and its contents ar
 ### Commands config section
 This section contains two templates used for building and pushing docker images. It allows for specifying custom parameters. 
 Commands defined here as templates will be filled with available defined properties from the config section + the dynamic properties set during runtime.  
+
+### Others config section
+- `verbose` config flag is useful when debugging, it simply shows more info between triggered build
+- `autoBuildExcludes` allows to define array of image names that are defined in the entire hierarchy but will be excluded from builds when parent image changes. One can still build them and take advantages of having templates and inheritance, but at the same time allows for someone is not required to build them with entire images tree.
 
 <a name="dockerfiletemplate"></a>
 ## Dockerfile.template
