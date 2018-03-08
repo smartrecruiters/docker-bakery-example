@@ -1,0 +1,13 @@
+{
+	"properties": {
+		"DEFAULT_PULL_REGISTRY": "private.repository.url:8888",
+		"DEFAULT_PUSH_REGISTRY": "private.repository.url:8888",
+		"DOCKERFILE_DIR": "Reserved dynamic property, contain path to currently build image. Can be used in template.",
+		"IMAGE_NAME": "Reserved dynamic property, represents image name. Can be used in template.",
+		"IMAGE_VERSION": "Reserved dynamic property, represents new version of the image. Can be used in template."
+	},
+	"commands": {
+		"defaultBuildCommand": "docker build --tag {{.IMAGE_NAME}}:{{.IMAGE_VERSION}} --tag {{.DEFAULT_PUSH_REGISTRY}}/{{.IMAGE_NAME}}:{{.IMAGE_VERSION}} --tag {{.DEFAULT_PULL_REGISTRY}}/{{.IMAGE_NAME}}:{{.IMAGE_VERSION}} {{.DOCKERFILE_DIR}}",
+		"defaultPushCommand": "docker push {{.DEFAULT_PUSH_REGISTRY}}/{{.IMAGE_NAME}}:{{.IMAGE_VERSION}}"
+	}
+}
