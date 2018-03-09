@@ -1,4 +1,9 @@
-# docker-bakery-example
+<p align="center">
+	<h1 align="center">docker-bakery-example</h1>
+	<p align="center">
+		<a href="/LICENSE.md"><img alt="Software License" src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>	
+	</p>
+</p>
 <!-- MarkdownTOC  depth="4" autolink="true" bracket="round" autoanchor="true" -->
 
 - [Purpose](#purpose)
