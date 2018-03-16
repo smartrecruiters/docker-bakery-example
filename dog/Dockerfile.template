@@ -1,8 +1,11 @@
 FROM {{.DEFAULT_PULL_REGISTRY}}/mammal:{{.MAMMAL_VERSION}}
 
-# example envs
-ENV WILDFLY_VERSION 8.2.0.Final
-ENV JBOSS_HOME /opt/jboss-as
+# Example of having existing ENVs
+# along with embedding all of BAKERY* signature variables defined in a key="value" format.
+ENV WILDFLY_VERSION="8.2.0.Final" \
+	JBOSS_HOME="/opt/jboss-as" \
+	{{.BAKERY_SIGNATURE_ENVS}} \
+	ANOTHER_ENV=1
 
 # some example operations
 RUN mkdir -p /logs/jboss-as
