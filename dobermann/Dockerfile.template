@@ -1,1 +1,5 @@
 FROM {{.DEFAULT_PULL_REGISTRY}}/dog:{{.DOG_VERSION}}
+
+# All embedded BAKERY* envs + one liner signature assigned to env variable of a custom name
+ENV {{.BAKERY_SIGNATURE_ENVS}} \
+CUSTOM_ENV_IMG_SIGNATURE="{{.BAKERY_SIGNATURE_VALUE}}"
