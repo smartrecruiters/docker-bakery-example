@@ -118,7 +118,7 @@ Configuration of the project is placed in `config.json` file and its contents ar
  
  `parent1:versionOfParent1->parent2:versionOfParent2->imageName:imageVersion` 
  
- Hierarchy is build automatically given that parent images are exporting the same `ENV` variable that can be accessed in child images. Check the example project for references.
+ Hierarchy is built automatically given that parent images are exporting the same `ENV` variable that can be accessed in child images. Check the example project for references.
  - `BAKERY_SIGNATURE_VALUE` - will be replaced with a one liner string value embedding other `BAKERY*` variables together. Can be used in templates to create for example `ENV` variable. Example:
   
   `SINGATURE=Builder Name;builder@email.com;builder-host-name;2018-03-16 15:47:58;alpine-java:8u144b01_jdk->mammal:3.2.0->dog:4.0.0->dobermann:4.0.0->smaller-dobermann:4.0.0` 
