@@ -7,6 +7,7 @@
 <!-- MarkdownTOC  depth="4" autolink="true" bracket="round" autoanchor="true" -->
 
 - [Purpose](#purpose)
+- [Example usage](#example-usage)
 - [Features](#features)
 - [Structure of the project](#structure-of-the-project)
     - [Config](#config)
@@ -28,6 +29,10 @@
 
 This is an example project with docker files that are managed by a **[docker-bakery](https://github.com/smartrecruiters/docker-bakery)**.
 It illustrates a simple solution for automatic rebuilding of dependent images when parent image changes. 
+
+<a id="example-usage"></a>
+# Example usage
+!["Example usage"](docker-bakery-demo.gif)
 
 <a id="features"></a>
 # Features
