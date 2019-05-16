@@ -4,13 +4,20 @@
 		"DEFAULT_PUSH_REGISTRY": "private.repository.url:8888",
 		"DOCKERFILE_DIR": "Reserved dynamic property, contain path to currently build image. Can be used in template.",
 		"IMAGE_NAME": "Reserved dynamic property, represents image name. Can be used in template.",
-		"IMAGE_VERSION": "Reserved dynamic property, represents new version of the image. Can be used in template."
+		"IMAGE_VERSION": "Reserved dynamic property, represents new version of the image. Can be used in template.",
+		"BAKERY_BUILDER_NAME": "Reserved dynamic property, resolved to git config user.name. Recommended to be used in a template.",
+		"BAKERY_BUILDER_EMAIL": "Reserved dynamic property, resolved to git config user.email. Recommended to be used in a template.",
+		"BAKERY_BUILDER_HOST": "Reserved dynamic property, resolved to hostname of the machine where build is executed. Recommended to be used in a template.",
+		"BAKERY_BUILD_DATE": "Reserved dynamic property, resolved to the date of a build. Recommended to be used in a template.",
+		"BAKERY_IMAGE_HIERARCHY": "Reserved dynamic property, resolved to path representing image hierarchy. Highly recommended to be used in a template.",
+		"BAKERY_SIGNATURE_VALUE": "Reserved dynamic property, resolved to one line signature embedding other BAKERY variables. Can to be used in a template.",
+		"BAKERY_SIGNATURE_ENVS": "Reserved dynamic property embedding other BAKERY variables. Highly recommended to be used in a template."
 	},
 	"commands": {
 		"defaultBuildCommand": "docker build --tag {{.IMAGE_NAME}}:{{.IMAGE_VERSION}} --tag {{.DEFAULT_PUSH_REGISTRY}}/{{.IMAGE_NAME}}:{{.IMAGE_VERSION}} --tag {{.DEFAULT_PULL_REGISTRY}}/{{.IMAGE_NAME}}:{{.IMAGE_VERSION}} {{.DOCKERFILE_DIR}}",
 		"defaultPushCommand": "docker push {{.DEFAULT_PUSH_REGISTRY}}/{{.IMAGE_NAME}}:{{.IMAGE_VERSION}}"
 	},
-	"verbose": false,
+	"verbose": true,
 	"autoBuildExcludes": [
 		"some-image-name-that-will-be-excluded-from-build-when-parent-changes"
 	]

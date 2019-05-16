@@ -76,24 +76,30 @@ meaning that:
 Configuration of the project is placed in `config.json` file and its contents are as follows:
 
 ```
- {
- 	"properties": {
-		"DEFAULT_PULL_REGISTRY": "some-private-registry.com:9084",
-		"DEFAULT_PUSH_REGISTRY": "some-private-registry.com:9082",
- 		"DOCKERFILE_DIR": "Reserved dynamic property, contain path to currently build image. Can be used in template.",
- 		"IMAGE_NAME": "Reserved dynamic property, represents image name. Can be used in template.",
- 		"IMAGE_VERSION": "Reserved dynamic property, represents new version of the image. Can be used in template."
- 	},
- 	"commands": {
- 		"defaultBuildCommand": "docker build --tag {{.IMAGE_NAME}}:{{.IMAGE_VERSION}} --tag {{.DEFAULT_PUSH_REGISTRY}}/{{.IMAGE_NAME}}:{{.IMAGE_VERSION}} --tag {{.DEFAULT_PULL_REGISTRY}}/{{.IMAGE_NAME}}:{{.IMAGE_VERSION}} {{.DOCKERFILE_DIR}}",
- 		"defaultPushCommand": "docker push {{.DEFAULT_PUSH_REGISTRY}}/{{.IMAGE_NAME}}:{{.IMAGE_VERSION}}"
- 	},
-	"verbose": false,
+{
+	"properties": {
+		"DEFAULT_PULL_REGISTRY": "private.repository.url:8888",
+		"DEFAULT_PUSH_REGISTRY": "private.repository.url:8888",
+		"DOCKERFILE_DIR": "Reserved dynamic property, contain path to currently build image. Can be used in template.",
+		"IMAGE_NAME": "Reserved dynamic property, represents image name. Can be used in template.",
+		"IMAGE_VERSION": "Reserved dynamic property, represents new version of the image. Can be used in template.",
+		"BAKERY_BUILDER_NAME": "Reserved dynamic property, resolved to git config user.name. Recommended to be used in a template.",
+		"BAKERY_BUILDER_EMAIL": "Reserved dynamic property, resolved to git config user.email. Recommended to be used in a template.",
+		"BAKERY_BUILDER_HOST": "Reserved dynamic property, resolved to hostname of the machine where build is executed. Recommended to be used in a template.",
+		"BAKERY_BUILD_DATE": "Reserved dynamic property, resolved to the date of a build. Recommended to be used in a template.",
+		"BAKERY_IMAGE_HIERARCHY": "Reserved dynamic property, resolved to path representing image hierarchy. Highly recommended to be used in a template.",
+		"BAKERY_SIGNATURE_VALUE": "Reserved dynamic property, resolved to one line signature embedding other BAKERY variables. Can to be used in a template.",
+		"BAKERY_SIGNATURE_ENVS": "Reserved dynamic property embedding other BAKERY variables. Highly recommended to be used in a template."
+	},
+	"commands": {
+		"defaultBuildCommand": "docker build --tag {{.IMAGE_NAME}}:{{.IMAGE_VERSION}} --tag {{.DEFAULT_PUSH_REGISTRY}}/{{.IMAGE_NAME}}:{{.IMAGE_VERSION}} --tag {{.DEFAULT_PULL_REGISTRY}}/{{.IMAGE_NAME}}:{{.IMAGE_VERSION}} {{.DOCKERFILE_DIR}}",
+		"defaultPushCommand": "docker push {{.DEFAULT_PUSH_REGISTRY}}/{{.IMAGE_NAME}}:{{.IMAGE_VERSION}}"
+	},
+	"verbose": true,
 	"autoBuildExcludes": [
 		"some-image-name-that-will-be-excluded-from-build-when-parent-changes"
 	]
-
- }
+}
 ```
  
 <a id="properties-config-section"></a>
@@ -101,13 +107,29 @@ Configuration of the project is placed in `config.json` file and its contents ar
  This section is dedicated for storing any custom properties that may be available for usage in `Dockerfile.template` files. 
  Feel free to modify this section and provide properties according to your needs. Flat structure should be preserved.
  
- This section will also be updated with dynamic properties during runtime. 
+ This section will also be updated with dynamic properties during runtime. Dynamic properties do not have to be defined 
+ in config as they are automatically added during runtime.
  
  Following properties belong to dynamic ones:
  - `DOCKERFILE_DIR` - will be replaced with currently processed dockerfile dir
  - `IMAGE_NAME` - will be replaced with currently processed image name
  - `IMAGE_VERSION` - will be replaced with currently processed image version
- - `*_VERSION` - where `*` is the image name. There will be that many properties of this kind as many images are in hierarchy. Initially those properties will be filled with latest versions of pushed images.  
+ - `*_VERSION` - where `*` is the image name. There will be that many properties of this kind as many images are in hierarchy. Initially those properties will be filled with latest versions of pushed images.
+ - `BAKERY_BUILDER_NAME` - will be replaced with the git user name (taken from `git config user.name`)  
+ - `BAKERY_BUILDER_EMAIL` - will be replaced with the git user email (taken from `git config user.email`)
+ - `BAKERY_BUILDER_HOST` - will be replaced with hostname of the machine where build is executed
+ - `BAKERY_BUILD_DATE` - will be replaced with current build date 
+ - `BAKERY_IMAGE_HIERARCHY` - will be replaced with the path representing image hierarchy in the following format: 
+ 
+ `parent1:versionOfParent1->parent2:versionOfParent2->imageName:imageVersion` 
+ 
+ Hierarchy is built automatically given that parent images are exporting the same `ENV` variable that can be accessed in child images. Check the example project for references.
+ - `BAKERY_SIGNATURE_VALUE` - will be replaced with a one liner string value embedding other `BAKERY*` variables together. Can be used in templates to create for example `ENV` variable. Example:
+  
+  `SINGATURE=Builder Name;builder@email.com;builder-host-name;2018-03-16 15:47:58;alpine-java:8u144b01_jdk->mammal:3.2.0->dog:4.0.0->dobermann:4.0.0->smaller-dobermann:4.0.0` 
+ - `BAKERY_SIGNATURE_ENVS` - will be replaced with embedded `BAKERY*` variables in a `key=value` format. Convenient if you wish to have all `BAKERY*` variables in a dockerfile under single key. 
+ Check the example project for references. 
+
 
 <a id="commands-config-section"></a>
 ### Commands config section
